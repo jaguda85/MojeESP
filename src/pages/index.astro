@@ -1,0 +1,59 @@
+---
+// Część 1: Tu definiujemy dane (Twój inwentarz)
+const projekty = [
+  { 
+    nazwa: "ESP Marauder", 
+    opis: "Analiza Wi-Fi", 
+    obrazek: "img/marauder.jpg", 
+    link: "https://github.com/justcallmekoko/ESP32Marauder"
+  },
+  { 
+    nazwa: "Bruce Predatory", 
+    opis: "Multitool do RF", 
+    obrazek: "img/bruce.jpg", 
+    link: "https://github.com/pr3d4t0r/bruce" 
+  },
+  { 
+    nazwa: "YoRadio", 
+    opis: "Radio internetowe", 
+    obrazek: "img/yoradio.jpg", 
+    link: "https://github.com/e2002/yoradio" 
+  },
+  { 
+    nazwa: "ESP32 D.I.V.", 
+    opis: "Kombajn jak chuj", 
+    obrazek: "img/DIVALL.JPEG", 
+    link: "https://github.com/cifertech/ESP32-DIV" 
+  }
+];
+const baseUrl = import.meta.env.BASE_URL;
+---
+
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Moje Projekty ESP32</title>
+    <style>
+        body { background: #0d1117; color: #c9d1d9; font-family: sans-serif; padding: 20px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+        .card { background: #161b22; border: 1px solid #30363d; border-radius: 10px; padding: 15px; text-align: center; }
+        .card img { width: 100%; height: 200px; object-fit: cover; border-radius: 8px; }
+        .card h2 { color: #58a6ff; }
+        .card a { color: #238636; text-decoration: none; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h1>Moje Realizacje ESP32</h1>
+    
+    <div class="grid">
+        {projekty.map((p) => (
+            <div class="card">
+                <img src={baseUrl + p.obrazek} alt={p.nazwa} />
+                <h2>{p.nazwa}</h2>
+                <p>{p.opis}</p>
+                <a href={p.link} target="_blank">Zobacz kod na GitHub →</a>
+            </div>
+        ))}
+    </div>
+</body>
+</html>

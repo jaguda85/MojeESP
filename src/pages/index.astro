@@ -1,59 +1,129 @@
 ---
-// Część 1: Tu definiujemy dane (Twój inwentarz)
-const projekty = [
+const baseUrl = import.meta.env.BASE_URL;
+
+// SEKCJA 1: Cudze projekty (Firmware)
+const cudzeProjekty = [
   { 
     nazwa: "ESP Marauder", 
-    opis: "Analiza Wi-Fi", 
-    obrazek: "img/marauder.jpg", 
+    opis: "Analiza Wi-Fi i Bluetooth. Testy deautentykacji.", 
+    obrazek: "img/marauder.jpg",
+    podlaczenie: "ESP32 + Antena + opcjonalnie ekran TFT 2.8. Pinout: SCK-18, MISO-19, MOSI-23.",
     link: "https://github.com/justcallmekoko/ESP32Marauder"
   },
   { 
     nazwa: "Bruce Predatory", 
-    opis: "Multitool do RF", 
-    obrazek: "img/bruce.jpg", 
-    link: "https://github.com/pr3d4t0r/bruce" 
+    opis: "Multitool do RF i Sub-GHz.", 
+    obrazek: "img/bruce.jpg",
+    podlaczenie: "ESP32 + moduł CC1101 (GDO0 -> G14, GDO2 -> G2, CSN -> G5).",
+    link: "https://github.com/pr3d4t0r/bruce"
   },
   { 
     nazwa: "YoRadio", 
-    opis: "Radio internetowe", 
-    obrazek: "img/yoradio.jpg", 
-    link: "https://github.com/e2002/yoradio" 
-  },
-  { 
-    nazwa: "ESP32 D.I.V.", 
-    opis: "Kombajn jak chuj", 
-    obrazek: "img/DIVALL.JPEG", 
-    link: "https://github.com/cifertech/ESP32-DIV" 
+    opis: "Radio internetowe z panelem WWW.", 
+    obrazek: "img/yoradio.jpg",
+    podlaczenie: "ESP32 + DAC PCM5102 (SCLK-26, DIN-22, BCK-25).",
+    link: "https://github.com/e2002/yoradio"
   }
 ];
-const baseUrl = import.meta.env.BASE_URL;
+
+// SEKCJA 2: Twoje własne projekty
+const mojeProjekty = [
+  {
+    nazwa: "ZEGAR-ekran MA7219",
+    opis: "Zegar z datą i pogodą oraz timerem i budzikiem(sterowany przez MQTT).",
+    obrazek: "img/zegarmax.jpg", // używam tego zdjęcia jako przykład
+    wersje: [
+      { v: "v1.0", info: "Wersja stabilna - sterowanie ręczne", plik: "kody/ZegarC3mqttOnOff2.ino" },
+      { v: "v1.2", info: "Wersja z dopracowanym interfejsem MQTT", plik: "kody/MAXc3Mqtt.ino" }
+    ]
+  },
+  {
+    nazwa: "GRA DLA DZIECI",
+    opis: "Sekwencje dźwięków i lampek które trzeba powtórzyć w odpowiedniej kolejności",
+    obrazek: "img/simon.jpg",
+    wersje: [
+      { v: "v1.0", info: "Podstawowa nieudoskonalana", plik: "kody/Simon2.ino" }
+    ]
+  }
+];
 ---
 
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
-    <title>Moje Projekty ESP32</title>
+    <title>ESP32 Workshop - Documentation</title>
     <style>
-        body { background: #0d1117; color: #c9d1d9; font-family: sans-serif; padding: 20px; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
-        .card { background: #161b22; border: 1px solid #30363d; border-radius: 10px; padding: 15px; text-align: center; }
-        .card img { width: 100%; height: 200px; object-fit: cover; border-radius: 8px; }
-        .card h2 { color: #58a6ff; }
-        .card a { color: #238636; text-decoration: none; font-weight: bold; }
+        body { background: #0d1117; color: #c9d1d9; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 20px; }
+        .container { max-width: 1100px; margin: 0 auto; }
+        h1 { text-align: center; color: #58a6ff; margin-bottom: 40px; }
+        h2 { color: #f0883e; border-bottom: 2px solid #30363d; padding-bottom: 10px; margin-top: 50px; }
+        
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px; margin-top: 20px; }
+        .card { background: #161b22; border: 1px solid #30363d; border-radius: 12px; padding: 20px; display: flex; flex-direction: column; }
+        .card img { width: 100%; height: 200px; object-fit: cover; border-radius: 8px; margin-bottom: 15px; }
+        
+        /* Sekcja podłączenia */
+        .wiring { background: #010409; padding: 12px; border-radius: 6px; font-size: 0.9rem; margin-top: 10px; color: #8b949e; border-left: 3px solid #f0883e; }
+        
+        /* Sekcja wersji kodu */
+        .versions { background: #21262d; padding: 10px; border-radius: 8px; margin-top: 15px; }
+        .version-item { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #30363d; }
+        .version-item:last-child { border-bottom: none; }
+        .btn-code { background: #238636; color: white; text-decoration: none; padding: 4px 10px; border-radius: 4px; font-size: 0.8rem; font-weight: bold; }
+        .btn-code:hover { background: #2ea043; }
+        
+        .footer { text-align: center; margin-top: 60px; color: #484f58; font-size: 0.8rem; }
     </style>
 </head>
 <body>
-    <h1>Moje Realizacje ESP32</h1>
-    
-    <div class="grid">
-        {projekty.map((p) => (
-            <div class="card">
-                <img src={baseUrl + "/" + p.obrazek} alt={p.nazwa} data-astro-cid-j7pv25f6 />
-                <h2>{p.nazwa}</h2>
-                <p>{p.opis}</p>
-                <a href={p.link} target="_blank">Zobacz kod na GitHub →</a>
-            </div>
-        ))}
+    <div class="container">
+        <h1>🛠 Moje Laboratorium ESP32</h1>
+
+        <!-- SEKCJA: CUDZE PROJEKTY -->
+        <h2>📡 Gotowe Firmware i Narzędzia</h2>
+        <div class="grid">
+            {cudzeProjekty.map((p) => (
+                <div class="card">
+                    <img src={baseUrl + "/" + p.obrazek} alt={p.nazwa} />
+                    <h3>{p.nazwa}</h3>
+                    <p>{p.opis}</p>
+                    <div class="wiring">
+                        <strong>🔧 Podłączenie:</strong><br/>
+                        {p.podlaczenie}
+                    </div>
+                    <a href={p.link} target="_blank" style="color:#58a6ff; margin-top:10px; font-size: 0.9rem;">Oryginalne Repo →</a>
+                </div>
+            ))}
+        </div>
+
+        <!-- SEKCJA: MOJE PROJEKTY -->
+        <h2>💡 Moje Autorskie Projekty (Arduino)</h2>
+        <div class="grid">
+            {mojeProjekty.map((p) => (
+                <div class="card">
+                    <img src={baseUrl + "/" + p.obrazek} alt={p.nazwa} />
+                    <h3>{p.nazwa}</h3>
+                    <p>{p.opis}</p>
+                    
+                    <div class="versions">
+                        <strong>📦 Pobierz kod (.ino):</strong>
+                        {p.wersje.map((ver) => (
+                            <div class="version-item">
+                                <div>
+                                    <span style="color:#58a6ff; font-weight:bold;">{ver.v}</span>
+                                    <br/><small style="color:#8b949e">{ver.info}</small>
+                                </div>
+                                <a href={baseUrl + "/" + ver.plik} class="btn-code" download>POBIERZ</a>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            ))}
+        </div>
+
+        <div class="footer">
+            Ostatnia aktualizacja: {new Date().toLocaleDateString('pl-PL')}
+        </div>
     </div>
 </body>
 </html>

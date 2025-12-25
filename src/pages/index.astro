@@ -48,7 +48,7 @@ const baseUrl = import.meta.env.BASE_URL;
     <div class="grid">
         {projekty.map((p) => (
             <div class="card">
-                <img src={baseUrl + p.obrazek} alt={p.nazwa} />
+                <img src={baseUrl + "/" + p.obrazek} alt={p.nazwa} data-astro-cid-j7pv25f6 />
                 <h2>{p.nazwa}</h2>
                 <p>{p.opis}</p>
                 <a href={p.link} target="_blank">Zobacz kod na GitHub →</a>

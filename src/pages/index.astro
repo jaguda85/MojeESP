@@ -32,6 +32,7 @@ const mojeProjekty = [
     nazwa: "ZEGAR-ekran MA7219",
     opis: "Zegar z datą i pogodą oraz timerem i budzikiem(sterowany przez MQTT).",
     obrazek: "img/zegarmax.jpg", // używam tego zdjęcia jako przykład
+    podlaczenie: "ESP32 + moduł CC1101 (GDO0 -> G14, GDO2 -> G2, CSN -> G5).",
     wersje: [
       { v: "v1.0", info: "Wersja stabilna - sterowanie ręczne", plik: "kody/ZegarC3mqttOnOff2.ino" },
       { v: "v1.2", info: "Wersja z dopracowanym interfejsem MQTT", plik: "kody/MAXc3Mqtt.ino" }
@@ -41,6 +42,7 @@ const mojeProjekty = [
     nazwa: "GRA DLA DZIECI",
     opis: "Sekwencje dźwięków i lampek które trzeba powtórzyć w odpowiedniej kolejności",
     obrazek: "img/simon.jpg",
+    podlaczenie: "ESP32 + moduł CC1101 (GDO0 -> G14, GDO2 -> G2, CSN -> G5).",
     wersje: [
       { v: "v1.0", info: "Podstawowa nieudoskonalana", plik: "kody/Simon2.ino" }
     ]

@@ -114,6 +114,9 @@ const mojeProjekty = [
                     <img src={baseUrl + "/" + p.obrazek} alt={p.nazwa} />
                     <h3>{p.nazwa}</h3>
                     <p>{p.opis}</p>
+                    <div class="wiring">
+                        <strong>🔧 Podłączenie:</strong><br/>
+                        {p.podlaczenie}
                     
                     <div class="versions">
                         <strong>📦 Pobierz kod (.ino):</strong>
